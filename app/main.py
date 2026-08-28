@@ -1,9 +1,18 @@
 from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
 from .schemas import SpamRequest, SPamResponse
 from .config import MODEL_PATH
 import pickle
 
 app = FastAPI()
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["http://localhost:3000"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 with open(MODEL_PATH, "rb") as file:
     pipeline = pickle.load(file)
